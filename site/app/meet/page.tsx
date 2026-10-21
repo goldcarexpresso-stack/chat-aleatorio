@@ -96,7 +96,7 @@ export default function TelaDeVideo() {
     const stream = streamLocal.current;
     const socket = io(url);
     socketRef.current = socket;
-    const pc = new RTCPeerConnection(configuracao);
+    const pc = new RTCPeerConnection(configuracaoComTurn);
     const pendentes: RTCIceCandidateInit[] = [];
     let remotoDefinido = false;
 
