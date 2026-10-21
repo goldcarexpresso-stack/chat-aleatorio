@@ -9,7 +9,38 @@ const configuracao: RTCConfiguration = {
     { urls: "stun:stun1.l.google.com:19302" },
   ],
 };
+const usuarioTurn = process.env.NEXT_PUBLIC_TURN_USUARIO;
+const senhaTurn = process.env.NEXT_PUBLIC_TURN_SENHA;
 
+const configuracaoComTurn: RTCConfiguration = {
+  iceServers: [
+    ...(configuracao.iceServers ?? []),
+    ...(usuarioTurn && senhaTurn
+      ? [
+          {
+            urls: "turn:global.relay.metered.ca:80",
+            username: usuarioTurn,
+            credential: senhaTurn,
+          },
+          {
+            urls: "turn:global.relay.metered.ca:80?transport=tcp",
+            username: usuarioTurn,
+            credential: senhaTurn,
+          },
+          {
+            urls: "turn:global.relay.metered.ca:443",
+            username: usuarioTurn,
+            credential: senhaTurn,
+          },
+          {
+            urls: "turns:global.relay.metered.ca:443?transport=tcp",
+            username: usuarioTurn,
+            credential: senhaTurn,
+          },
+        ]
+      : []),
+  ],
+};
 interface Mensagem {
   de: "eu" | "outro";
   texto: string;
